@@ -42,7 +42,10 @@ function Pagination({ range = 5, maxNumber, numberParameter = "pageNumber", size
   const [path, queryParameter] = router.asPath.split("?");
   const params = Object.fromEntries(new URLSearchParams(queryParameter).entries());
 
-  const currentNumber = Number(params[numberParameter]) || 1;
+  const currentNumber = (() => {
+    const num = Number(params[numberParameter]) || 1;
+    return num < 1 ? 1 : num;
+  })();
   const startNum = currentNumber - ((currentNumber - 1) % range);
 
   function combineUrl(num: number) {
