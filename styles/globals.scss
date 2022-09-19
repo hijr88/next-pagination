@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --light-blue: 11 166 255;
+    --blue: 75 137 249;
+    --dark-blue: 28 62 155;
+    --red: 233 20 20;
+
+    --light-black: #262626;
+  }
+}
