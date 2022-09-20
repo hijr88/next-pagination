@@ -77,7 +77,7 @@ function Pagination({ range = 5, maxNumber, numberParameter = "pageNumber", size
       } else {
         jsx.push(
           <li key={lastNumber} data-key={lastNumber}>
-            <span className="flex h-full w-7 items-center justify-center">&hellip;</span>
+            <span className="flex h-full w-[38px] items-center justify-center">&hellip;</span>
           </li>
         );
       }
@@ -107,7 +107,7 @@ function Pagination({ range = 5, maxNumber, numberParameter = "pageNumber", size
       } else {
         jsx.push(
           <li key={firstNumber} data-key={firstNumber}>
-            <span className="flex h-full w-7 items-center justify-center">&hellip;</span>
+            <span className="flex h-full w-[38px] items-center justify-center">&hellip;</span>
           </li>
         );
       }
@@ -175,8 +175,8 @@ function Pagination({ range = 5, maxNumber, numberParameter = "pageNumber", size
         {currentNumber !== maxNumber && <link rel="next" href={combineUrl(currentNumber + 1)} />}
       </Head>
 
-      <ul className="flex justify-center gap-1">
-        {currentNumber !== 1 && (
+      <ul className="flex select-none justify-center gap-1">
+        {currentNumber !== 1 ? (
           <li key={"left"}>
             <A href={combineUrl(currentNumber - 1)}>
               <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -184,11 +184,21 @@ function Pagination({ range = 5, maxNumber, numberParameter = "pageNumber", size
               </svg>
             </A>
           </li>
+        ) : (
+          <span
+            className={cls(
+              "flex h-[38px] w-[38px] cursor-default items-center justify-center rounded-full border border-gray-300 text-[15px] text-gray-300"
+            )}
+          >
+            <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+          </span>
         )}
         {fixedStartRange()}
         {numbers()}
         {fixedEndRange()}
-        {currentNumber !== maxNumber && (
+        {currentNumber !== maxNumber ? (
           <li key={"right"}>
             <A href={combineUrl(currentNumber + 1)}>
               <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -196,6 +206,16 @@ function Pagination({ range = 5, maxNumber, numberParameter = "pageNumber", size
               </svg>
             </A>
           </li>
+        ) : (
+          <span
+            className={cls(
+              "flex h-[38px] w-[38px] cursor-default items-center justify-center rounded-full border border-gray-300 text-[15px] text-gray-300"
+            )}
+          >
+            <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+          </span>
         )}
       </ul>
     </nav>
