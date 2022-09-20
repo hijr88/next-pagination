@@ -15,19 +15,32 @@ interface Props {
   numberParameter?: string;
   sizeParameter?: string;
 }
+const defaultClass = "flex h-[38px] w-[38px] items-center justify-center rounded-full border text-[15px]";
 
 function A({ children, href, isActive = false }: { children: React.ReactNode; href: string; isActive?: boolean; isDisabled?: boolean }) {
   return isActive ? (
-    <span className="flex h-[38px] w-[38px] cursor-default items-center justify-center rounded-full border border-blue bg-blue text-[15px] text-white">
-      {children}
-    </span>
+    <span className={cls(defaultClass, "cursor-default border-blue bg-blue text-white")}>{children}</span>
   ) : (
     <Link href={href}>
-      <a className="flex h-[38px] w-[38px] items-center justify-center rounded-full border border-[#CFE3FF] text-[15px] text-blue hover:border-blue hover:bg-blue hover:text-white">
-        {children}
-      </a>
+      <a className={cls(defaultClass, "border-[#CFE3FF] text-blue transition-all hover:border-blue hover:bg-blue hover:text-white")}>{children}</a>
     </Link>
   );
+}
+
+function Svg({ type }: { type: "left" | "right" }) {
+  if (type === "left") {
+    return (
+      <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+      </svg>
+    );
+  } else {
+    return (
+      <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+      </svg>
+    );
+  }
 }
 
 function Pagination({ length = 5, sideLength = 2, endNumber, numberParameter = "pageNumber", sizeParameter = "pageSize" }: Props) {
@@ -149,10 +162,11 @@ function Pagination({ length = 5, sideLength = 2, endNumber, numberParameter = "
 
       for (let i = 0; i < sideLength && beginNumber <= endNumber; i++) {
         array[index++] = (
-          <li key={beginNumber + i}>
-            <A href={combineUrl(beginNumber + i)}>{beginNumber + i}</A>
+          <li key={beginNumber}>
+            <A href={combineUrl(beginNumber)}>{beginNumber}</A>
           </li>
         );
+        beginNumber++;
       }
     }
     return array;
@@ -177,46 +191,33 @@ function Pagination({ length = 5, sideLength = 2, endNumber, numberParameter = "
         {currentNumber !== 1 && <link rel="prev" href={combineUrl(currentNumber - 1)} />}
         {currentNumber !== endNumber && <link rel="next" href={combineUrl(currentNumber + 1)} />}
       </Head>
-
       <ul className="flex select-none justify-center gap-1">
         {currentNumber !== 1 ? (
-          <li key={"left"}>
+          <li key="left">
             <A href={combineUrl(currentNumber - 1)}>
-              <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-              </svg>
+              <Svg type="left" />
             </A>
           </li>
         ) : (
-          <span
-            className={cls(
-              "flex h-[38px] w-[38px] cursor-default items-center justify-center rounded-full border border-gray-300 text-[15px] text-gray-300"
-            )}
-          >
-            <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-            </svg>
-          </span>
+          <li key="left">
+            <span className={cls(defaultClass, "cursor-default border-gray-300 text-gray-300")}>
+              <Svg type="left" />
+            </span>
+          </li>
         )}
         {finalNumbers()}
         {currentNumber !== endNumber ? (
-          <li key={"right"}>
+          <li key="right">
             <A href={combineUrl(currentNumber + 1)}>
-              <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-              </svg>
+              <Svg type="right" />
             </A>
           </li>
         ) : (
-          <span
-            className={cls(
-              "flex h-[38px] w-[38px] cursor-default items-center justify-center rounded-full border border-gray-300 text-[15px] text-gray-300"
-            )}
-          >
-            <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-            </svg>
-          </span>
+          <li key="right">
+            <span className={cls(defaultClass, "cursor-default border-gray-300 text-gray-300")}>
+              <Svg type="right" />
+            </span>
+          </li>
         )}
       </ul>
     </nav>
